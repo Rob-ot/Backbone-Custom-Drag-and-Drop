@@ -95,9 +95,9 @@ function (
     },
 
     _draggable_mouseUp: function () {
-      this.trigger("dragend")
+      var dropTarget = Droppable._droppableOnDragEnd(this, this.x, this.y, this.width, this.height)
 
-      Droppable._droppableOnDragEnd(this, this.x, this.y, this.width, this.height)
+      this.trigger("dragend", dropTarget)
 
       var dragtime = new Date().getTime() - this._draggable_startTime
 
