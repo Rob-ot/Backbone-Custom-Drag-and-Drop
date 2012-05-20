@@ -73,11 +73,15 @@ function (
     _droppableOnDragEnd: function (view, x, y, w, h) {
       var closestView = closestDroppable(x, y, w, h)
 
-      if (currentHover) currentHover.trigger('dropunhover', view)
-      currentHover = null
+      if (currentHover) {
+        currentHover.trigger('dropunhover', view)
+        view.trigger('dropunhover', currentHover)
+        currentHover = null
+      }
 
       if (closestView) {
         closestView.trigger('drop', view)
+        view.trigger('drop', closestView)
       }
 
       return closestView
@@ -88,8 +92,16 @@ function (
 
       if (currentHover === closestView) return
 
-      if (currentHover) currentHover.trigger('dropunhover', view)
-      if (closestView) closestView.trigger('drophover', view)
+      if (currentHover) {
+        currentHover.trigger('dropunhover', view)
+        view.trigger('dropunhover', currentHover)
+      }
+
+      if (closestView) {
+        closestView.trigger('drophover', view)
+        view.trigger('drophover', closestView)
+      }
+      
       currentHover = closestView
     }
   }
